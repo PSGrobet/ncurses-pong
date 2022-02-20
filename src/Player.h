@@ -6,23 +6,23 @@
 class Player
 {
 	int xPos{};
-	int pTexture = ACS_VLINE;
+	int yPos{};	
 	int length = sizeof(positionArray) / sizeof(positionArray[0]);
-
+	int points{};
+	int positionArray[5];
+	
 	public:
 		//Constructor
-		Player(int x);
-		int positionArray[5];
+		Player(int x, int y);
+	
 		int getX();
-		//int getYArray();
-		//void setX(int x);
-		//void setY(int y);
-		void newPosition(int *posArray[], int dir, int size);
+		int getY();
+		void setY( int y );
 		void drawPlayer();
 		void setPositionArray(int y);
-		
+		int getPoints();
+		void setPoints(int p);
+		int pTexture{};
 };
-
-
 
 #endif

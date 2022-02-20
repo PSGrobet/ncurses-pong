@@ -3,16 +3,9 @@
 #include "Player.h"
 
 //Constructor
-Player::Player(int x)
-    : xPos(x) {}
+Player::Player( int x, int y )
+    : xPos(x), yPos(y) {}
 
-void Player::newPosition(int *posArray[], int dir, int size)
-{
-	for( int i = 0; i < size; i++ )
-	{
-		posArray[i] += dir;
-	}
-}
 
 int Player::getX()
 {
@@ -21,24 +14,36 @@ int Player::getX()
 
 void Player::drawPlayer()
 {
-	for(int i = 0; i < length; i++)
+	for( int i = 0; i < length; i++ )
 	{
 		mvaddch(positionArray[i], xPos, pTexture);
 	}
 }
 
-void Player::setPositionArray( int y)
-{
-	
-	for(int i = 0; i < 5; i++)
-	{
+void Player::setPositionArray( int y ) 
+{ 
+	for( int i = 0; i < 5; i++ )
+	{ 
 		positionArray[i] = y + i;
 	}
-	
 }
 
+int Player::getPoints()
+{
+	return points;
+}
 
-// int Player::getYArray() 
-// {
-// 	return positionArray;
-// };
+int Player::getY()
+{
+	return yPos;
+}
+
+void Player::setY( int y )
+{
+	yPos = y;
+}
+
+void Player::setPoints( int p )
+{
+	points = p;
+}

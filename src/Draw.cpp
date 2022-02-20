@@ -2,8 +2,9 @@
 #include <stdlib.h>
 
 #include "Player.h"
+#include "Ball.h"
 
-void draw( Player playerA, Player playerB )
+void draw( Player playerA, Player playerB, Ball ball, int serve )
 {
     // caracteres:
     // http://melvilletheatre.com/articles/ncurses-extended-characters/index.html
@@ -14,48 +15,43 @@ void draw( Player playerA, Player playerB )
     int bl_corner = ACS_LLCORNER;
     int br_corner = ACS_LRCORNER;
 
-    int width = 80;
-    int height = 24;
-
-    /*int a[5];
-    for( int i = 0; i < 5; i++)
-    {
-        a[i] = player1_pos[i];
-    }
-    int b[5];*/
-    
+    int width{ 80 };
+    int height{ 24 };
+    int top{ 2 };
+    int bottom{ height + 2 }; 
     
     erase();
 
     // Draw the board
-
-    mvaddch( 0, 0, tl_corner);
-    mvaddch( 0, width, tr_corner);
-    mvaddch( height, 0, bl_corner);
-    mvaddch( height, width, br_corner);
+    mvaddch( top, 0, tl_corner);
+    mvaddch( top, width, tr_corner);
+    mvaddch( bottom, 0, bl_corner);
+    mvaddch( bottom, width, br_corner);
     for( int i = 1; i < width; i++ )
     {
-        mvaddch(0, i, hor_line );
-        mvaddch(height, i, hor_line );
+        mvaddch( top, i, hor_line );
+        mvaddch( bottom, i, hor_line );
     }
 
-    for( int i = 1; i < height; i++ )
-    {
-        mvaddch( i, 0, ver_line );
-        mvaddch( i, width, ver_line );
-    }
-
-    for( int i = 1; i < height; i++ )
+    for( int i = 3; i < bottom; i++ )
     {
         mvaddch( i, width / 2, ':' );
     }
 
-    // drawTest(5, a, 5);
+    mvprintw( 1, width / 2 / 2, "%i", playerA.getPoints() );
+    mvprintw( 1, width / 2 + width / 2 / 2, "%i", playerB.getPoints() );
 
+	
     playerA.drawPlayer();
     playerB.drawPlayer();
-
-    
+    if( serve == 0 )
+    {
+		ball.drawBall(playerA.getY() + 2, playerA.getX() + 1);
+	} else if ( serve == 1 )
+	{
+		ball.drawBall(playerB.getY() +2, playerB.getX() -1);
+	}
+	
 
     refresh();
 }

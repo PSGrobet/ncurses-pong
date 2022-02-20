@@ -1,42 +1,46 @@
 #include <ncurses.h>
 #include <stdlib.h>
+#include <iostream>
+
 #include "Player.h"
 #include "Ball.h"
 
-
-int ch; // es int porque getch() devuelve el valor ascii del caracter que tecleas
-int width = 80;
-int height = 24;
-char wallTexture;
 bool quit;
+int ch{};
+
 
 void setup();
-void draw( Player playerA, Player playerB );
+void input();
+void draw( Player playerA, Player playerB, Ball ball, int serve );
+Player player1( 3, 12 );
+Player player2( 77, 12 );
+Ball ball(1, 1, 1);
+
+int serve();
 
 
 int main()
 {
     setup();
-	Player player1(3);
-	Player player2(77);
-	//int * arr[5] = {4, 5, 6, 7, 8};
-	player1.setPositionArray(6);
-	player2.setPositionArray(9);
 
+    //ball.setY(23);
+    int playerServe = serve();
+	
+	
     while(!quit)
     {
-        draw( player1, player2 );
+		input();
+		draw( player1, player2, ball, playerServe );
+		
     }
     endwin();
+    
     return 0;
 }
 
 
 void setup()
 {
-    //Textures
-    wallTexture = '*';
-
     //Init ncurses
     initscr();
     cbreak();
@@ -45,7 +49,66 @@ void setup()
     keypad(stdscr, TRUE);
     timeout(50);
 
+	ball.ballTexture = 'o';
+
+    player1.pTexture = ACS_VLINE;
+	player2.pTexture = ACS_VLINE;
+	
+	player1.setPoints(0);
+	player2.setPoints(0);
+	player1.setPositionArray( player1.getY() );
+	player2.setPositionArray( player2.getY() );
+
     quit = false;
+}
+
+void input()
+{
+	ch = getch();
+
+	switch( ch )
+	{
+		case 'w':
+			if( player1.getY() > 3 )
+			{
+			player1.setY( player1.getY() - 1 );
+			player1.setPositionArray( player1.getY() );
+			}
+			break;
+		case 's':
+			if( player1.getY() < 21 )
+			{
+				player1.setY( player1.getY() + 1 );
+				player1.setPositionArray( player1.getY() );
+			}
+			break;
+		case KEY_UP:
+			if( player2.getY() > 3 )
+			{
+			player2.setY( player2.getY() - 1 );
+			player2.setPositionArray( player2.getY() );
+			}
+			break;
+		case KEY_DOWN:
+			if( player2.getY() < 21 )
+			{
+				player2.setY( player2.getY() + 1 );
+				player2.setPositionArray( player2.getY() );
+			}
+			break;
+		case 'q':
+			quit = true;
+			break;
+	}
+}
+
+int serve()
+{
+	int s{};
+	srand(time(0));
+	s = rand() % 2;
+
+	return s;
 }
 
 //para usar otro tipo de caracteres, usar UNICODE. http://yjlv.blogspot.com/2015/10/displaying-unicode-with-ncurses-in-c.html#cfd5-setup
