@@ -1,5 +1,6 @@
 #ifndef BALL_H
 #define BALL_H
+
 #include <ncurses.h>
 
 class Ball
@@ -19,9 +20,5 @@ class Ball
 	void setY( double y );
 	void setSpeed( int sp );
 	void drawBall( double x, double y );
-	
 };
-
-
-
 #endif

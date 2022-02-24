@@ -7,37 +7,37 @@
 
 bool quit;
 int ch{};
-
+int playerServe{};
 
 void setup();
 void input();
+void logic();
 void draw( Player playerA, Player playerB, Ball ball, int serve );
+
 Player player1( 3, 12 );
 Player player2( 77, 12 );
-Ball ball(1, 1, 1);
+Ball ball(1, 1, 0);
 
 int serve();
-
 
 int main()
 {
     setup();
 
-    //ball.setY(23);
-    int playerServe = serve();
-	
-	
-    while(!quit)
-    {
-		input();
-		draw( player1, player2, ball, playerServe );
+    playerServe = serve();
+    
+		while(!quit)
+		{
+
+			logic();
+			input();
+			draw( player1, player2, ball, playerServe );
 		
-    }
+		}
     endwin();
     
     return 0;
 }
-
 
 void setup()
 {
@@ -96,14 +96,51 @@ void input()
 				player2.setPositionArray( player2.getY() );
 			}
 			break;
+		case ' ':
+			if( playerServe == 0 )
+			{
+				playerServe = -1;
+				ball.setSpeed( 1 );
+			} else if( playerServe == 1)
+			{
+				playerServe = -1;
+				ball.setSpeed( -1 );
+			}
+			break;
 		case 'q':
 			quit = true;
 			break;
 	}
 }
 
+void logic()
+{
+	if( playerServe == 0 )
+	{
+		ball.setX( player1.getX() + 1 );
+		ball.setY( player1.getY() + 2 );
+	} else if ( playerServe == 1 )
+	{
+		ball.setX( player2.getX() - 1 );
+		ball.setY( player2.getY() + 2 );
+	}
+	
+	if( playerServe != 0 || playerServe != 1 )
+	{
+		if( ball.getSpeed() == 1 )
+		{
+			ball.setX( ball.getX() +1 );
+		} else if( ball.getSpeed() == -1 )
+		{
+			ball.setX( ball.getX() -1 );
+		}	
+	}
+}
+
 int serve()
 {
+	// 0: player 1 serves,
+	// 1: player 2 serves.
 	int s{};
 	srand(time(0));
 	s = rand() % 2;

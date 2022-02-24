@@ -40,18 +40,23 @@ void draw( Player playerA, Player playerB, Ball ball, int serve )
 
     mvprintw( 1, width / 2 / 2, "%i", playerA.getPoints() );
     mvprintw( 1, width / 2 + width / 2 / 2, "%i", playerB.getPoints() );
-
 	
     playerA.drawPlayer();
     playerB.drawPlayer();
+    
     if( serve == 0 )
     {
-		ball.drawBall(playerA.getY() + 2, playerA.getX() + 1);
+		ball.drawBall(ball.getY(), ball.getX());
+		mvprintw( 1, width / 2 - 7, "Player 1 serve");
 	} else if ( serve == 1 )
 	{
-		ball.drawBall(playerB.getY() +2, playerB.getX() -1);
-	}
-	
+		ball.drawBall(ball.getY(), ball.getX());
+		mvprintw( 1, width / 2 - 7, "Player 2 serve"); 
+	} else
+	{
+		ball.drawBall(ball.getY(), ball.getX());
+		mvprintw( 1, width / 2 - 7, "Ball speed: %i", ball.getSpeed());
+	}	
 
     refresh();
 }
