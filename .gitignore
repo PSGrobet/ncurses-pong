@@ -1,2 +1,3 @@
-tests/
+bin/main
 src/.vscode
+tests/

@@ -8,6 +8,9 @@
 bool quit;
 int ch{};
 int playerServe{};
+int width{ 80 };
+int top{ 2 };
+int bottom{ 26 };
 
 void setup();
 void input();
@@ -144,7 +147,7 @@ void input()
 		case KEY_RIGHT:
 			if( playerServe == 1 )
 			{
-				if( ball.getY() < player1.getY() +4)
+				if( ball.getY() < player2.getY() +4)
 				{
 					ball.setY( ball.getY() +1 );
 				}
@@ -153,7 +156,7 @@ void input()
 		case KEY_LEFT:
 			if( playerServe == 1 )
 			{
-				if( ball.getY() > player1.getY() )
+				if( ball.getY() > player2.getY() )
 				{
 					ball.setY( ball.getY() -1 );
 				}
@@ -205,7 +208,7 @@ void logic()
 	// -2: up-left
 	// -3: down-left
 	
-	
+	// BALL SERVE SETUP
 	if( playerServe == 0 )
 	{
 		ball.setX( player1.getX() + 1 );
@@ -215,7 +218,8 @@ void logic()
 		ball.setX( player2.getX() - 1 );
 		ball.setY( ball.getY() );
 	}
-	
+
+	// BALL MOVEMENT
 	if( playerServe != 0 || playerServe != 1 )
 	{
 		if( ball.getSpeed() == 1 ) // Right
@@ -242,6 +246,64 @@ void logic()
 			ball.setY( ball.getY() +.3 );
 		}
 		
+	}
+
+	// BALL BOUNCING
+	if( playerServe != 0 && playerServe != 1 )
+	{
+		// BOUNCING ON A PLAYER
+		if( ball.getX() == player1.getX() )
+		{
+			if( ball.getY() == player1.getY() + 2 )
+			{
+				ball.setSpeed( 1 );
+			} else if( ball.getY() < player1.getY() +2 && ball.getY() > player1.getY() -1 )
+			{
+				ball.setSpeed( 3 );
+			} else if( ball.getY() > player1.getY() +2 && ball.getY() < player1.getY() + 5 )
+			{
+				ball.setSpeed( 2 );
+			}
+		}
+		if( ball.getX() == player2.getX() )
+		{
+			if( ball.getY() == player2.getY() + 2 )
+			{
+				ball.setSpeed( -1 );
+			} else if( ball.getY() < player2.getY() +2 && ball.getY() > player2.getY() -1 )
+			{
+				ball.setSpeed( -2 );
+			} else if( ball.getY() > player2.getY() +2 && ball.getY() < player2.getY() + 5 )
+			{
+				ball.setSpeed( -3 );
+			}
+		}
+
+		// BOUNCING ON WALLS
+		if( ball.getY() <= top )
+		{
+			ball.setSpeed( ball.getSpeed() -1 );
+		} else if ( ball.getY() >= bottom )
+		{
+			ball.setSpeed( ball.getSpeed() +1 );
+		}
+		
+	}
+
+	if( ball.getX() == 0 )
+	{
+		player2.setPoints(player2.getPoints() +1);
+		ball.setX( player2.getX() - 1 );
+		ball.setY( player2.getY() + 2 );
+		ball.setSpeed( 0 );
+		playerServe = 1;
+	} else if( ball.getX() == width )
+	{
+		player1.setPoints( player1.getPoints() +1 );
+		ball.setX( player1.getX() + 1 );
+		ball.setY( player1.getY() + 2 );
+		ball.setSpeed( 0 );
+		playerServe = 0;
 	}
 }
 

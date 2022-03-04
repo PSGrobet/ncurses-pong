@@ -6,7 +6,7 @@
 
 void draw( Player playerA, Player playerB, Ball ball, int serve )
 {
-    // caracteres:
+    // Characters:
     // http://melvilletheatre.com/articles/ncurses-extended-characters/index.html
     int hor_line = ACS_HLINE;
     int ver_line = ACS_VLINE;
@@ -55,7 +55,6 @@ void draw( Player playerA, Player playerB, Ball ball, int serve )
 	} else
 	{
 		ball.drawBall(ball.getY(), ball.getX());
-		mvprintw( 1, width / 2 - 7, "Ball speed: %i", ball.getSpeed());
 	}	
 
     refresh();
